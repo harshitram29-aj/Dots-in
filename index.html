@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is a Large Behavioural Model? — Dots-In</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#09090b;--ink2:#27272a;--ink3:#52525b;--ink4:#a1a1aa;
+  --bg:#fafaf9;--card:#ffffff;--border:#e4e4e7;
+  --dots:#7c3aed;--dots2:#ede9fe;--dots3:#c4b5fd;
+  --teal:#0d9488;--teal2:#f0fdfa;
+  --amber:#d97706;--amber2:#fef3c7;
+  --blue:#2563eb;--blue2:#eff6ff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{background:var(--ink);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-mark{width:32px;height:32px;border-radius:50%;background:var(--dots);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.logo-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.logo-name span{color:var(--dots3)}
+.header-tag{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em}
+
+/* ── HERO ── */
+.hero{background:var(--ink);padding:4rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,.15) 0%,transparent 70%);pointer-events:none}
+.hero-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--dots3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:center;gap:8px}
+.hero-label::before,.hero-label::after{content:'';width:30px;height:1px;background:var(--dots)}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#fff;margin-bottom:1rem}
+h1 em{font-style:normal;color:var(--dots3)}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.6);max-width:560px;margin:0 auto 2rem;line-height:1.7}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--dots);color:#fff;padding:10px 24px;border-radius:8px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .15s}
+.hero-cta:hover{opacity:.88}
+
+/* ── SECTIONS ── */
+section{padding:3.5rem 2rem;max-width:860px;margin:0 auto}
+.sec-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+h2{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;letter-spacing:-.025em;margin-bottom:.75rem;color:var(--ink)}
+.lead{font-size:1rem;color:var(--ink3);line-height:1.7;max-width:580px;margin-bottom:1.5rem}
+
+/* ── LLM vs LBM COMPARISON ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.5rem 0}
+.compare-card{border-radius:12px;padding:1.25rem;border:1px solid var(--border)}
+.compare-card.llm{background:var(--bg);border-color:var(--border)}
+.compare-card.lbm{background:var(--dots2);border-color:var(--dots3)}
+.cc-tag{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;margin-bottom:.75rem;display:inline-block;letter-spacing:.05em}
+.tag-llm{background:#e4e4e7;color:var(--ink3)}
+.tag-lbm{background:var(--dots);color:#fff}
+.cc-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.cc-list{list-style:none;font-size:13px;color:var(--ink3);line-height:1.8}
+.cc-list li::before{content:'→ ';color:var(--dots3)}
+.cc-list.lbm-list li::before{color:var(--dots)}
+
+/* ── DIMENSION PILLS ── */
+.dim-grid{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.dim-pill{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--ink2);transition:all .2s;cursor:default}
+.dim-pill:hover{background:var(--dots2);border-color:var(--dots3);color:var(--dots)}
+.dim-pill.active{background:var(--dots);color:#fff;border-color:var(--dots)}
+
+/* ── USE CASE CARDS ── */
+.uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:1.5rem 0}
+.uc-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem;transition:border-color .2s}
+.uc-card:hover{border-color:var(--dots3)}
+.uc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem;font-size:18px}
+.uc-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.uc-body{font-size:12px;color:var(--ink3);line-height:1.55}
+
+/* ── HOW IT WORKS STEPS ── */
+.steps{margin:1.5rem 0}
+.step{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--dots2);border:1px solid var(--dots3);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--dots);flex-shrink:0;margin-top:2px}
+.step-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:.25rem}
+.step-body{font-size:13px;color:var(--ink3);line-height:1.55}
+
+/* ── STAT ROW ── */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1.5rem 0}
+.stat-card{background:var(--dots2);border:1px solid var(--dots3);border-radius:12px;padding:1.1rem;text-align:center}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--dots);line-height:1}
+.stat-lbl{font-size:12px;color:var(--ink3);margin-top:.25rem;line-height:1.4}
+
+/* ── QUOTE ── */
+.founder-quote{background:var(--ink);border-radius:16px;padding:2rem;margin:1.5rem 0;position:relative}
+.fq-text{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:500;color:#fff;line-height:1.5;margin-bottom:1rem;font-style:italic}
+.fq-attr{font-size:12px;color:rgba(255,255,255,.5);font-family:'DM Mono',monospace;letter-spacing:.05em}
+.fq-accent{position:absolute;top:1.5rem;right:1.5rem;font-size:4rem;color:rgba(124,58,237,.2);font-family:'Syne',sans-serif;line-height:1}
+
+/* ── BUILDER CTA ── */
+.builder-cta{background:var(--dots2);border:1px solid var(--dots3);border-radius:16px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.5rem}
+.bc-text h4{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.bc-text p{font-size:12px;color:var(--ink3);max-width:380px;line-height:1.5}
+.bc-contact{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);line-height:1.9;flex-shrink:0}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:1.25rem 2rem;text-align:center}
+footer p{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.35)}
+
+@media(max-width:600px){
+  .compare-grid,.stat-row{grid-template-columns:1fr}
+  h1{font-size:2rem}
+  header,section{padding-left:1.25rem;padding-right:1.25rem}
+  .builder-cta{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="5" cy="5" r="3" fill="white"/><circle cx="11" cy="11" r="3" fill="white" opacity=".6"/><circle cx="11" cy="5" r="1.5" fill="white" opacity=".4"/><circle cx="5" cy="11" r="1.5" fill="white" opacity=".4"/></svg>
+    </div>
+    <div class="logo-name">Dots<span>-In</span></div>
+  </div>
+  <div class="header-tag">Built by Harshit Ram Yandapalli · Proof of Work</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">A new class of AI</div>
+  <h1>The world knows LLMs.<br>Meet the <em>LBM.</em></h1>
+  <p class="hero-sub">Large Language Models understand words. Large Behavioural Models understand <em>you</em> — your biology, your psychology, your patterns. Dots-In is building the infrastructure of human identity.</p>
+  <a href="https://www.assessli.com" class="hero-cta" target="_blank">See Dots-In →</a>
+</div>
+
+<!-- SECTION 1: THE GAP -->
+<section>
+  <div class="sec-tag">The problem with current AI</div>
+  <h2>AI knows what you do. It has no idea who you are.</h2>
+  <p class="lead">ChatGPT predicts your next word. Netflix predicts your next watch. But neither understands why you made the choices you did — your mood that day, your cognitive style, your biological rhythms. That gap is what Dots-In is closing.</p>
+
+  <div class="compare-grid">
+    <div class="compare-card llm">
+      <div class="cc-tag tag-llm">Large Language Model (LLM)</div>
+      <div class="cc-title">Understands language & patterns</div>
+      <ul class="cc-list">
+        <li>Reads and generates text</li>
+        <li>Predicts based on what you type</li>
+        <li>Trained on internet text</li>
+        <li>Same model for everyone</li>
+        <li>~60% personalisation accuracy</li>
+      </ul>
+    </div>
+    <div class="compare-card lbm">
+      <div class="cc-tag tag-lbm">Large Behavioural Model (LBM)</div>
+      <div class="cc-title">Understands humans</div>
+      <ul class="cc-list lbm-list">
+        <li>Reads behaviour, biology, psychology</li>
+        <li>Predicts based on who you are</li>
+        <li>Trained on 20M+ human data points</li>
+        <li>Unique model for each individual</li>
+        <li>99.6% personalisation accuracy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: THE 240 DIMENSIONS -->
+<section style="padding-top:0">
+  <div class="sec-tag">What the LBM sees</div>
+  <h2>240+ dimensions of what makes you, <em>you</em>.</h2>
+  <p class="lead">Not clicks. Not search history. The real signals — cognitive patterns, emotional rhythms, genomic markers, neuropsychological traits. Hover to explore.</p>
+
+  <div class="dim-grid">
+    <span class="dim-pill active">Cognitive style</span>
+    <span class="dim-pill">Emotional regulation</span>
+    <span class="dim-pill">Genomic markers</span>
+    <span class="dim-pill">Sleep & energy rhythms</span>
+    <span class="dim-pill">Decision-making patterns</span>
+    <span class="dim-pill">Neuropsychology</span>
+    <span class="dim-pill">Medical history</span>
+    <span class="dim-pill">Stress response</span>
+    <span class="dim-pill">Learning style</span>
+    <span class="dim-pill">Motivation triggers</span>
+    <span class="dim-pill">Social behaviour</span>
+    <span class="dim-pill">Risk tolerance</span>
+    <span class="dim-pill">Physiological signals</span>
+    <span class="dim-pill">Daily behaviour rhythms</span>
+    <span class="dim-pill">Digital life patterns</span>
+    <span class="dim-pill active">+ 225 more</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val">1T+</div><div class="stat-lbl">Behavioural data points processed</div></div>
+    <div class="stat-card"><div class="stat-val">99.6%</div><div class="stat-lbl">Personalisation accuracy</div></div>
+    <div class="stat-card"><div class="stat-val">240+</div><div class="stat-lbl">Human dimensions modelled</div></div>
+  </div>
+</section>
+
+<!-- SECTION 3: HOW IT WORKS -->
+<section style="padding-top:0">
+  <div class="sec-tag">How it works</div>
+  <h2>From human data to human understanding.</h2>
+  <p class="lead">The LBM doesn't just read what you do. It builds a living model of who you are — and updates in real time as you change.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Collect across sources</div>
+        <div class="step-body">Wearables, apps like Apple Health and Google Fit, environmental sensors, and biological markers. Data from the body, not just the browser. DNA stays local — edge-computed, encrypted.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Build your behavioural profile</div>
+        <div class="step-body">The LBM integrates genomics, neuropsychology, cognitive patterns, and real-time physiological data into a single unified profile — a digital twin that's as unique as your DNA.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">Adapt in real time</div>
+        <div class="step-body">Unlike a static model, the LBM evolves as you do. Your stress levels today change what it recommends. Your sleep last night changes how it talks to you. AI that moves with human life.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">Power any application</div>
+        <div class="step-body">The LBM is a horizontal infrastructure layer. Any app, platform, or device can connect to it via API — and immediately gain deep human understanding without building it from scratch.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: USE CASES -->
+<section style="padding-top:0">
+  <div class="sec-tag">Where this matters</div>
+  <h2>Every industry that touches humans.</h2>
+  <p class="lead">The LBM is domain-agnostic. Wherever personalisation has been limited to clicks and keywords, it can now be grounded in actual human understanding.</p>
+
+  <div class="uc-grid">
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#eff6ff">🏫</div>
+      <div class="uc-title">Education</div>
+      <div class="uc-body">Learning paths that adapt to a student's cognitive style, energy levels, and emotional state — not just their test scores. Every student gets a different teacher.</div>
+    </div>
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#fef3c7">🏥</div>
+      <div class="uc-title">Healthcare</div>
+      <div class="uc-body">Predict patient recovery, mental health risk, and treatment adherence based on behavioural and genomic signals — not just diagnosis codes.</div>
+    </div>
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#f0fdf4">💼</div>
+      <div class="uc-title">HR & Hiring</div>
+      <div class="uc-body">Assess long-term cultural and performance fit based on behavioural patterns — not just interviews and CVs. Predict who will thrive, not just who looks good on paper.</div>
+    </div>
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#fdf2f8">🤖</div>
+      <div class="uc-title">AI Companions</div>
+      <div class="uc-body">AI companions that actually understand your emotional state and adapt in real time — the foundation for Dots-In's consumer product.</div>
+    </div>
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#ede9fe">💰</div>
+      <div class="uc-title">Finance</div>
+      <div class="uc-body">Credit risk and fraud detection that reads behavioural patterns, not just transaction history. Understand financial decision-making at the human level.</div>
+    </div>
+    <div class="uc-card">
+      <div class="uc-icon" style="background:#fff7ed">🦾</div>
+      <div class="uc-title">Robotics</div>
+      <div class="uc-body">Machines that don't just follow commands — they anticipate what you need based on who you are. The bridge between AI and genuinely human-aware robotics.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: FOUNDER QUOTE -->
+<section style="padding-top:0">
+  <div class="founder-quote">
+    <div class="fq-accent">"</div>
+    <div class="fq-text">Current AI models don't understand your adaptive data points, human behaviour. They don't have a biological context like your medical history, genomics, mood, mind, neuropsychology. Without mapping adaptive behaviour, AI remains generic, failing to evolve with individuals in real time.</div>
+    <div class="fq-attr">SURAJ BISWAS · FOUNDER & CEO, DOTS-IN / ASSESSLI</div>
+  </div>
+
+  <div class="builder-cta">
+    <div class="bc-text">
+      <h4>This page was built as a proof of work — not commissioned.</h4>
+      <p>I'm applying for the Founder's Office Intern role at Dots-In. I built this because making the LBM concept click for a non-technical person is the first job of anyone working with Suraj.</p>
+    </div>
+    <div class="bc-contact">
+      Harshit Ram Yandapalli<br>
+      harshitram29@gmail.com<br>
+      +91 9676747774
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Dots-In / Assessli · Large Behavioural Model · Built by Harshit Ram Yandapalli as proof of work · harshitram29@gmail.com</p>
+</footer>
+
+</body>
+</html>
